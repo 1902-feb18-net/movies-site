@@ -34,3 +34,4 @@ steps:
     # the name of the App Service resource in Azure (also, the subdomain of the .azurewebsites URL)
     WebAppName: 'escalona1902movies'
     Package: $(System.DefaultWorkingDirectory)/publish/*.zip
+    removeAdditionalFilesFlag: true
