@@ -11,8 +11,26 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  solutionPath: './'
+  solutionPath: '.'
+  appProjectPath: 'MoviesSite.App'
 
 steps:
 - script: dotnet build "$(solutionPath)" --configuration $(buildConfiguration)
   displayName: 'dotnet build'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    projects: '$(appProjectPath)'
+    publishWebProjects: false
+    arguments: >-
+      --configuration $(buildConfiguration)
+      --output $(System.DefaultWorkingDirectory)/publish
+    zipAfterPublish: true
+  displayName: dotnet publish
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    # based on name given to Azure Resource Manager service connection
+    azureSubscription: 'nick-azure'
+    # the name of the App Service resource in Azure (also, the subdomain of the .azurewebsites URL)
+    WebAppName: 'escalona1902movies'
+    Package: $(System.DefaultWorkingDirectory)/publish/*.zip
