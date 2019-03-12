@@ -13,7 +13,7 @@ namespace MoviesSite.App.Controllers
         public IActionResult Index()
         {
             return View();
-        }
+
 
         public IActionResult Privacy()
         {
