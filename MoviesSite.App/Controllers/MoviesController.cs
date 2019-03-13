@@ -41,18 +41,6 @@ namespace MoviesSite.App.Controllers
     // the other way we can keep data around to incrementally build something like
     // an Order is with hidden form fields (corresponding to view model properties ofc.).
 
-    /*
-    <form asp-action="Post">
-        <!-- other non-hidden form fields --> 
-        @for(int i = 0; i<Model.Count; i++)
-        {
-            @Html.Hidden($"items[{i}].Id", Model[i].Id)
-            @Html.Hidden($"items[{i}].Name", Model[i].Name)
-        }
-        <input type = "submit" value="Post" class="btn btn-default" />
-    </form>
-    */
-
         // attribute routing - in contrast to global/convention-based routing
     [Route("Films/[action]/{id?}")]
     public class MoviesController : Controller
@@ -135,6 +123,8 @@ namespace MoviesSite.App.Controllers
             catch (InvalidOperationException ex)
             {
                 // should log that, and redirect to error page
+                _logger.LogWarning(ex, "User tries to access nonexistent movie");
+
                 return RedirectToAction("Error", "Home");
             }
         }
